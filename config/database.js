@@ -1,14 +1,12 @@
-const mongoose = requie("mongoose");
+const mongoose = require("mongoose");
 
-const { MONGO_URI } = process.env;
+const { MONGO_URL } = process.env;
 
 exports.connect = () => {
   mongoose
-    .connect(MONGO_URI, {
+    .connect(MONGO_URL || "mongodb://localhost:27017/jwtproject", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
     })
     .then(() => {
       console.log("Successfully connected to database");
