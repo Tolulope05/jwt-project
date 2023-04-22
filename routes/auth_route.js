@@ -92,14 +92,15 @@ router.post("/login", async (req, res) => {
       user.token = token;
       // user
       res.status(200).json({ success: true, payload: user });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 400,
+          message: "Register failed! Check authentication credentials",
+        },
+      });
     }
-    res.status(400).json({
-      success: false,
-      error: {
-        code: 400,
-        message: "Register failed! Check authentication credentials",
-      },
-    });
   } catch (error) {
     console.log(`Error: ${error}`);
   }
