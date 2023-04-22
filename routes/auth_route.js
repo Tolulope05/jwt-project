@@ -8,10 +8,10 @@ const router = express.Router();
 //@route           GET /api/auth/register
 //@access          Public
 
-router.post("/register", async (request, res) => {
+router.post("/register", async (req, res) => {
   try {
     // get user input
-    const { first_name, last_name, email, password } = request.body;
+    const { first_name, last_name, email, password } = req.body;
     // validate user input
     if (!(first_name && last_name && email && password)) {
       res.status(400).json({
@@ -63,5 +63,45 @@ router.post("/register", async (request, res) => {
 //@description     Login a user
 //@route           GET /api/auth/login
 //@access          Public
-router.post("/login", (request, reponse) => {});
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!(email && password)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 400,
+          message: "All input are required",
+        },
+      });
+    }
+    // Validate if user exist in our database
+    const user = await User.findOne({ email });
+    const comparePW = await bcrypt.compare(password, user.password);
+    if (user && comparePW) {
+      // Create token
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+      // save user token
+      user.token = token;
+      // user
+      res.status(200).json({ success: true, payload: user });
+    }
+    res.status(400).json({
+      success: false,
+      error: {
+        code: 400,
+        message: "Register failed! Check authentication credentials",
+      },
+    });
+  } catch (error) {
+    console.log(`Error: ${error}`);
+  }
+});
 module.exports = router;
