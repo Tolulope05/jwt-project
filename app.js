@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const logger = require("morgan");
 
 const db = require("./config/database");
+const authRouter = require("./routes/auth_route");
 
 const app = express();
 
@@ -20,6 +21,9 @@ db.connect();
 //app level middleware
 app.use(express.json());
 app.use(logger("dev"));
+
+// routes
+app.use("/api/auth", authRouter);
 
 app.use("*", (request, response) => {
   response.status(200).send({ response: "Status is live" });
