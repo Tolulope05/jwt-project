@@ -20,6 +20,7 @@ db.connect();
 
 //app level middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
 // routes
