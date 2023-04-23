@@ -5,6 +5,7 @@ const logger = require("morgan");
 
 const db = require("./config/database");
 const authRouter = require("./routes/auth_route");
+const projectRouter = require("./routes/project_route");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(logger("dev"));
 
 // routes
 app.use("/api/auth", authRouter);
+app.use("/api/projects", projectRouter);
 
 app.use("*", (request, response) => {
   response.status(200).send({ response: "Status is live" });
