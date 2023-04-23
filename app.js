@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const dotenv = require("dotenv");
 const logger = require("morgan");
+const cors = require("cors");
 
 const db = require("./config/database");
 const authRouter = require("./routes/auth_route");
@@ -12,6 +13,10 @@ const app = express();
 // Loads .env file contents into process.env.
 dotenv.config();
 const port = process.env.PORT;
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  optionsSuccessStatus: 200,
+};
 
 // create server
 const server = http.createServer(app);
@@ -23,6 +28,7 @@ db.connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
+app.use(cors(corsOptions));
 
 // routes
 app.use("/api/auth", authRouter);
