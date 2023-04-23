@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("./../model/project");
-const verifyToken = require("./../middleware/auth");
+const verifyToken = require("./../middleware/auth"); // <--- import verifyToken middleware
 
 //@description     Create a project
 //@route           POST /api/projects
