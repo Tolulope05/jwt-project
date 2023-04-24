@@ -7,7 +7,9 @@ const verifyToken = require("./../middleware/auth"); // <--- import verifyToken 
 //@route           POST /api/projects
 //@access          Private
 
-router.post("/", verifyToken, async (req, res) => {
+router.use(verifyToken); // <--- apply verifyToken middleware to all routes in this file (project_route.js
+
+router.post("/", async (req, res) => {
   try {
     const { name, description } = req.body;
     if (!(name && description)) {
@@ -34,7 +36,7 @@ router.post("/", verifyToken, async (req, res) => {
 //@route           GET /api/projects
 //@access          Private
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const projects = await Project.find({ user_id: req.user.user_id });
     res.status(200).json({ success: true, payload: projects });
@@ -47,7 +49,7 @@ router.get("/", verifyToken, async (req, res) => {
 //@route           GET /api/projects/:id
 //@access          Private
 
-router.get("/:id", verifyToken, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const project = await Project.findOne({
       _id: req.params.id,
@@ -72,7 +74,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 //@route           PUT /api/projects/:id
 //@access          Private
 
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const { name, description } = req.body;
     if (!(name && description)) {
@@ -116,7 +118,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 //@route           DELETE /api/projects/:id
 //@access          Private
 
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const project = await Project.findOneAndDelete({
       _id: req.params.id,
