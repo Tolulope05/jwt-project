@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
       success: false,
       error: {
         code: 403,
-        message: "Token is not provided",
+        message: "Token is not provided, please login",
       },
     });
   }
@@ -23,7 +23,7 @@ const verifyToken = (req, res, next) => {
       success: false,
       error: {
         code: 401,
-        message: "Unauthorized",
+        message: "Unauthorized, please login",
       },
     });
   }
