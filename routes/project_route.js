@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
 //@access          Private
 
 router.get("/", async (req, res) => {
+  console.log(req.user);
   try {
     const projects = await Project.find({ user_id: req.user.user_id });
     res.status(200).json({ success: true, payload: projects });
