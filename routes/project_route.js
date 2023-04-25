@@ -3,12 +3,12 @@ const router = express.Router();
 const Project = require("./../model/project");
 const verifyToken = require("./../middleware/auth"); // <--- import verifyToken middleware
 
+// Auth middleware
+router.use(verifyToken); // <--- apply verifyToken middleware to all routes in this file (project_route.js
+
 //@description     Create a project
 //@route           POST /api/projects
 //@access          Private
-
-router.use(verifyToken); // <--- apply verifyToken middleware to all routes in this file (project_route.js
-
 router.post("/", async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -35,7 +35,6 @@ router.post("/", async (req, res) => {
 //@description     List all projects
 //@route           GET /api/projects
 //@access          Private
-
 router.get("/", async (req, res) => {
   console.log(req.user);
   try {
@@ -49,7 +48,6 @@ router.get("/", async (req, res) => {
 //@description     Get a project
 //@route           GET /api/projects/:id
 //@access          Private
-
 router.get("/:id", async (req, res) => {
   try {
     const project = await Project.findOne({
