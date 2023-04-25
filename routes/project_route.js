@@ -97,7 +97,7 @@ router.put("/:id", async (req, res) => {
         description,
       },
       {
-        new: true,
+        new: true, // return the updated document
       }
     );
     if (!project) {
